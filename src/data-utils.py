@@ -13,6 +13,15 @@ def get_attributes_names(df):
     return df.columns.to_list()
 
 
+def generate_bootstraps(df, n, seed=42):
+    bootstraps = []
+    for i in range(n):
+        sample = df.sample(frac=1, replace=True, random_state=seed+i)
+        bootstraps.append(sample)
+
+    return bootstraps
+
+
 def generate_k_folds(df, k, seed=42):
     fold_size = df // k
     if not fold_size:
