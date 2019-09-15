@@ -19,7 +19,11 @@ def generate_bootstraps(df, n, seed=42):
         sample = df.sample(frac=1, replace=True, random_state=seed+i)
         bootstraps.append(sample)
 
-    return bootstraps
+    non_used = df
+    for b in bootstraps:
+        non_used = non_used.drop(b.index, errors='ignore')
+
+    return bootstraps, non_used
 
 
 def generate_k_folds(df, k, seed=42):
