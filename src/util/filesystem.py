@@ -19,4 +19,7 @@ def load_attr_types(path):
 
 
 def get_attributes_names(df):
-    return df.columns.to_list()
+    columns = df.columns.to_list()
+    if "class" in columns:
+        columns.remove("class")
+    return columns
