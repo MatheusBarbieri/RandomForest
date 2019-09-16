@@ -9,7 +9,14 @@ def get_args(arguments=None):
         '--dataset',
         required=True,
         type=str,
-        help="Path to dataset for training or classification.")
+        help="Path to csv dataset for training or classification.")
+
+    parser.add_argument(
+        '-k',
+        '--kinds-path',
+        required=True,
+        type=str,
+        help="Path to json object containing attributes kind information.")
 
     parser.add_argument(
         '-s',
@@ -25,13 +32,6 @@ def get_args(arguments=None):
         required=True,
         choices=['train', 'predict'],
         help='Execution mode.')
-
-    parser.add_argument(
-        '-k',
-        '--kinds',
-        required=True,
-        type=str,
-        help="String containing information wether attributes are numerical or categorical [C for Categorical; N for numerical].") # noqa
 
     parser.add_argument(
         '-m',
