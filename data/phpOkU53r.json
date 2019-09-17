@@ -1,8 +1,8 @@
 {
-    "V1": "numerical",
-    "V2": "numerical",
-    "V3": "numerical",
-    "V4": "numerical",
-    "V5": "numerical",
-    "V6": "numerical"
+    "V1": "numeric",
+    "V2": "numeric",
+    "V3": "numeric",
+    "V4": "numeric",
+    "V5": "numeric",
+    "V6": "numeric"
 }
