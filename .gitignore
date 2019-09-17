@@ -1,4 +1,7 @@
 .vscode
 
+#pycache
+__pycache__/
+
 # ignore jupyter
 experimentation
