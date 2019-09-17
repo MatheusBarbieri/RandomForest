@@ -16,10 +16,3 @@ def load_attr_types(path):
             return json.load(f)
     else:
         raise Exception("Missing attribute category info.")
-
-
-def get_attributes_names(df):
-    columns = df.columns.to_list()
-    if "class" in columns:
-        columns.remove("class")
-    return columns
