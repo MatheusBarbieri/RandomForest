@@ -13,7 +13,7 @@ def get_args(arguments=None):
 
     parser.add_argument(
         '-k',
-        '--kinds-path',
+        '--kinds',
         required=True,
         type=str,
         help="Path to json object containing attributes kind information.")
@@ -36,14 +36,14 @@ def get_args(arguments=None):
     parser.add_argument(
         '-m',
         type=int,
-        help="Number of sample attributes used on each division on tree [if not present, all attributes are used].") # noqa
+        help="Number of sample attributes used on each division on tree [if not present, all attributes are used].")
 
     parser.add_argument(
         '-n',
         '--ntree',
         default=5,
         type=int,
-        help="The number of trees generated on ensamble [default: %(default)s].") # noqa
+        help="The number of trees generated on ensamble [default: %(default)s].")
 
     args = parser.parse_args(arguments)
     return args
