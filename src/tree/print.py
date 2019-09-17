@@ -23,4 +23,5 @@ def tree_to_string(tree, depth=1):
                 + NOMINAL_COLOR + tree.attribute + DEFAULT_COLOR + ": "
             string = string + spacing + attr_name + tree_to_string(option[1], depth + 1) + "\n"
 
+    string = string[:-1]
     return string
