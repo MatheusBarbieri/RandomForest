@@ -1,6 +1,7 @@
 import random
 from information import gain
 from util import group_by_attribute
+from .print import tree_to_string
 
 
 class Tree:
@@ -10,6 +11,9 @@ class Tree:
         self.attribute = attribute
         self.kind = kind
         self.cut = cut
+
+    def __str__(self):
+        return tree_to_string(self)
 
     @classmethod
     def _choose_best_attribute(cls, attributes, df, m, seed=42):
