@@ -1,4 +1,6 @@
 import argparse
+from util import read_csv, load_attr_types
+from tree import Tree
 
 
 def get_args(arguments=None):
@@ -34,7 +36,7 @@ def get_args(arguments=None):
         help='Execution mode.')
 
     parser.add_argument(
-        '-m',
+        '-a',
         type=int,
         help="Number of sample attributes used on each division on tree [if not present, all attributes are used].")
 
@@ -51,3 +53,7 @@ def get_args(arguments=None):
 
 if __name__ == "__main__":
     args = get_args()
+    data = read_csv(args.dataset)
+    attributes = load_attr_types(args.kinds)
+    tree = Tree.generate_node(data, attributes)
+    print(tree)
