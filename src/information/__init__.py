@@ -1,1 +1,1 @@
-from gain import gain # noqa
+from .gain import gain # noqa
