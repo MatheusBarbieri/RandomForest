@@ -12,7 +12,7 @@ def read_csv(path):
 
 def load_attr_types(path):
     if os.path.exists(path):
-        with open('path', 'r') as f:
+        with open(path, 'r') as f:
             return json.load(f)
     else:
         raise Exception("Missing attribute category info.")
