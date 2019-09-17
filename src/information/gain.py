@@ -1,5 +1,5 @@
 from math import log2
-from src.util import group_by_attribute
+from util import group_by_attribute
 
 
 def info(df):
