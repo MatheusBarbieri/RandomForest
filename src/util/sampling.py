@@ -15,7 +15,7 @@ def generate_bootstraps(df, n, seed=42):
 
 
 def generate_k_folds(df, k, seed=42):
-    fold_size = df // k
+    fold_size = len(df) // k
     if not fold_size:
         raise Exception("Fold size should be smaller than dataset rows")
 
