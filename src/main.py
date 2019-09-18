@@ -1,7 +1,8 @@
 import argparse
 import time
 import random
-from util import read_csv, load_attr_types
+import pandas as pd
+from util import read_csv, load_attr_types, generate_k_folds
 from tree import Tree
 
 
@@ -58,13 +59,17 @@ if __name__ == "__main__":
     data = read_csv(args.dataset)
     attributes = load_attr_types(args.kinds)
 
-    start = time.time()
     random.seed(args.seed)
-    tree = Tree.generate(data, attributes, m=3)
+    k_folds = generate_k_folds(data, 10)
+    training = pd.concat(k_folds[:-1])
+    test = k_folds[-1]
+
+    start = time.time()
+    tree = Tree.generate(training, attributes)
     end = time.time()
     print("Total generation time: ", end-start)
 
-    results = tree.predict_df(data, return_target=True)
+    results = tree.predict_df(test, return_target=True)
     total = len(results)
     correct = 0
     for result in results:
