@@ -58,7 +58,20 @@ class Tree:
                 cut=cut
             )
 
-    @classmethod
-    def predict(cls, df):
-        for row in df.iterrows():
+    def predict(self, instance, return_target):
+        if self.target_class:
+            return (self.target_class, instance['class'])
 
+        if self.kind == "nominal":
+            sub_tree = self.options[instance[self.attribute]]
+        else:
+            sub_tree = self.options[instance[self.attribute] > self.cut]
+
+        return sub_tree.predict(instance, return_target)
+
+    def predict_df(self, instances, return_target=False):
+        results = []
+        for index, instance in instances.iterrows():
+            predicted, expected = self.predict(instance.to_dict(), return_target)
+            results.append((predicted, expected, index))
+        return results

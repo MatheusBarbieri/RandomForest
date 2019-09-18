@@ -61,3 +61,7 @@ if __name__ == "__main__":
     tree = Tree.generate(data, attributes)
     end = time.time()
     print("Total generation time: ", end-start)
+
+    results = tree.predict_df(data, return_target=True)
+    for result in results:
+        print(f"Predicted: {result[0]}\t\tExpected: {result[1]}")
