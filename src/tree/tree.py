@@ -57,7 +57,7 @@ class Tree:
                 cut=cut
             )
 
-    def predict(self, instance, return_target):
+    def predict(self, instance):
         if self.target_class:
             return (self.target_class, instance['class'])
 
@@ -66,11 +66,11 @@ class Tree:
         else:
             sub_tree = self.options[instance[self.attribute] > self.cut]
 
-        return sub_tree.predict(instance, return_target)
+        return sub_tree.predict(instance)
 
-    def predict_df(self, instances, return_target=False):
+    def predict_df(self, instances):
         results = []
         for index, instance in instances.iterrows():
-            predicted, expected = self.predict(instance.to_dict(), return_target)
+            predicted, expected = self.predict(instance.to_dict())
             results.append((predicted, expected, index))
         return results

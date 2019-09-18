@@ -69,7 +69,7 @@ if __name__ == "__main__":
     end = time.time()
     print("Total generation time: ", end-start)
 
-    results = tree.predict_df(test, return_target=True)
+    results = tree.predict_df(test)
     total = len(results)
     correct = 0
     for result in results:
