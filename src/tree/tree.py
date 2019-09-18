@@ -32,7 +32,7 @@ class Tree:
         return tree_to_string(self)
 
     @classmethod
-    def generate_node(cls, df, attributes, m=None):
+    def generate(cls, df, attributes, m=None):
         if df['class'].nunique() == 1:
             return Tree(target_class=df['class'].iloc[0])
 
@@ -47,7 +47,7 @@ class Tree:
             new_attributes = {k: v for k, v in attributes.items() if k != name}
 
             def gen_options():
-                return {c: cls.generate_node(df, new_attributes, m) for c, df in groups}
+                return {c: cls.generate(df, new_attributes, m) for c, df in groups}
 
             cut = df[name].mean() if kind == "numeric" else None
 

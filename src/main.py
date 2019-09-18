@@ -1,4 +1,5 @@
 import argparse
+import time
 from util import read_csv, load_attr_types
 from tree import Tree
 
@@ -55,5 +56,8 @@ if __name__ == "__main__":
     args = get_args()
     data = read_csv(args.dataset)
     attributes = load_attr_types(args.kinds)
-    tree = Tree.generate_node(data, attributes)
-    print(tree)
+
+    start = time.time()
+    tree = Tree.generate(data, attributes)
+    end = time.time()
+    print("Total generation time: ", end-start)
