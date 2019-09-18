@@ -1,5 +1,6 @@
 import argparse
 import time
+import random
 from util import read_csv, load_attr_types
 from tree import Tree
 
@@ -58,10 +59,16 @@ if __name__ == "__main__":
     attributes = load_attr_types(args.kinds)
 
     start = time.time()
-    tree = Tree.generate(data, attributes)
+    random.seed(args.seed)
+    tree = Tree.generate(data, attributes, m=3)
     end = time.time()
     print("Total generation time: ", end-start)
 
     results = tree.predict_df(data, return_target=True)
+    total = len(results)
+    correct = 0
     for result in results:
-        print(f"Predicted: {result[0]}\t\tExpected: {result[1]}")
+        if result[0] == result[1]:
+            correct = correct + 1
+
+    print(f"Total: {total}, Correct: {correct}")

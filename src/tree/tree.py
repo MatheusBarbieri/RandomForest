@@ -8,11 +8,10 @@ def _most_frequent_class(df):
     return df['class'].value_counts().idxmax()
 
 
-def _choose_best_attribute(attributes, df, m, seed):
+def _choose_best_attribute(attributes, df, m):
     attr = list(attributes.items())
 
     if m and len(attr) >= m:
-        random.seed(seed)
         attr = random.sample(attr, m)
 
     results = [info_attr(a, df) for a in attr]
@@ -32,7 +31,7 @@ class Tree:
         return tree_to_string(self)
 
     @classmethod
-    def generate(cls, df, attributes, m=None, seed=42):
+    def generate(cls, df, attributes, m=None):
         if df['class'].nunique() == 1:
             return Tree(target_class=df['class'].iloc[0])
 
@@ -40,7 +39,7 @@ class Tree:
             return Tree(target_class=_most_frequent_class(df))
 
         else:
-            best_attribute = _choose_best_attribute(attributes, df, m, seed)
+            best_attribute = _choose_best_attribute(attributes, df, m)
             name, kind = best_attribute
 
             groups = group_by_attribute(best_attribute, df)
