@@ -1,5 +1,5 @@
 import random
-from information import info_attr
+from information import info_attribute
 from util import group_by_attribute
 from .print import tree_to_string
 
@@ -9,13 +9,13 @@ def _most_frequent_class(df):
 
 
 def _choose_best_attribute(attributes, df, m):
-    attr = list(attributes.items())
+    attribute = list(attributes.items())
 
-    if m and len(attr) >= m:
-        attr = random.sample(attr, m)
+    if m and len(attribute) >= m:
+        attribute = random.sample(attribute, m)
 
-    results = [info_attr(a, df) for a in attr]
-    choice = attr[results.index(min(results))]
+    results = [info_attribute(a, df) for a in attribute]
+    choice = attribute[results.index(min(results))]
     return choice
 
 
