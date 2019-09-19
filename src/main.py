@@ -1,7 +1,8 @@
 import time
 import random
 import pandas as pd
-from util import read_csv, load_attr_types, generate_k_folds, get_args
+from util import read_csv, load_attr_types, get_args
+from sampling import generate_k_folds
 from tree import Tree
 
 
