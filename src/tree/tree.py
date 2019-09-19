@@ -46,7 +46,7 @@ class Tree:
             new_attributes = {k: v for k, v in attributes.items() if k != name}
 
             def gen_options():
-                return {c: cls.generate(df, new_attributes, m) for c, df in groups}
+                return {c: cls.generate(group, new_attributes, m) for c, group in groups}
 
             cut = df[name].mean() if kind == "numeric" else None
 
