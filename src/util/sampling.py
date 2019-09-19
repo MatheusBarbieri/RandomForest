@@ -35,8 +35,8 @@ def _random_k_folds(df, k, add_remaining, seed):
 
 def _stratified_k_folds(df, k, add_remaining, seed):
     groups = df.groupby('class')
-    a = [_random_k_folds(g, k, add_remaining, seed) for c, g in groups]
-    folds = [pd.concat(a[y][i] for y in range(len(a))) for i in range(k)]
+    folds_by_groups = [_random_k_folds(g, k, add_remaining, seed) for c, g in groups]
+    folds = [pd.concat(folds_by_groups[x][y] for x in range(len(folds_by_groups))) for y in range(k)]
     return folds
 
 
