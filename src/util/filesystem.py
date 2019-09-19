@@ -3,7 +3,7 @@ import json
 import pandas as pd
 
 
-def read_csv(path):
+def load_data(path):
     if os.path.exists(path):
         df = pd.read_csv(path)
         if 'Class' in df.columns:
@@ -19,7 +19,7 @@ def read_csv(path):
         raise Exception("File does not exists.")
 
 
-def load_attr_types(path):
+def load_attributes(path):
     if os.path.exists(path):
         with open(path, 'r') as f:
             return json.load(f)

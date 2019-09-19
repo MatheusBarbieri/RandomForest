@@ -1,15 +1,17 @@
 import time
 import random
+
 import pandas as pd
-from util import read_csv, load_attr_types, get_args
+
+from util import load_data, load_attributes, get_args
 from sampling import generate_k_folds
 from tree import Tree
 
 
 if __name__ == "__main__":
     args = get_args()
-    data = read_csv(args.dataset)
-    attributes = load_attr_types(args.kinds)
+    data = load_data(args.dataset)
+    attributes = load_attributes(args.kinds)
 
     random.seed(args.seed)
     k_folds = generate_k_folds(data, 10)
