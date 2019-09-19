@@ -12,11 +12,11 @@ def get_args(arguments=None):
         help="Path to csv dataset for training or classification.")
 
     parser.add_argument(
-        '-k',
-        '--kinds',
+        '-a',
+        '--attributes',
         required=True,
         type=str,
-        help="Path to json object containing attributes kind information.")
+        help="Path to json object containing attributes wich will be used and its kind information.")
 
     parser.add_argument(
         '-s',

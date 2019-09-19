@@ -11,10 +11,11 @@ from tree import Tree
 if __name__ == "__main__":
     args = get_args()
     data = load_data(args.dataset)
-    attributes = load_attributes(args.kinds)
+    attributes = load_attributes(args.attributes)
+    seed = args.seed
 
-    random.seed(args.seed)
-    k_folds = generate_k_folds(data, 10)
+    random.seed()
+    k_folds = generate_k_folds(data, 10, seed=seed)
     training = pd.concat(k_folds[:-1])
     test = k_folds[-1]
 
