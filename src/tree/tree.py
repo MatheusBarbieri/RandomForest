@@ -57,21 +57,18 @@ class Tree:
                 cut=cut
             )
 
-    def predict(self, instance):
-        if self.target_class:
-            return self.target_class
 
-        try:
-            if self.kind == "nominal":
-                sub_tree = self.options[instance[self.attribute]]
-            else:
-                sub_tree = self.options[instance[self.attribute] > self.cut]
-        except KeyError:
-            print("Instance attribute has no class in tree node, using first option available")
-            sub_tree = next(iter(self.options.values()))
+def predict(tree, instance):
+    if tree.target_class:
+        return tree.target_class
 
-        return sub_tree.predict(instance)
+    try:
+        if tree.kind == "nominal":
+            sub_tree = tree.options[instance[tree.attribute]]
+        else:
+            sub_tree = tree.options[instance[tree.attribute] > tree.cut]
+    except KeyError:
+        print("Instance attribute has no class in tree node, using first option available")
+        sub_tree = next(iter(tree.options.values()))
 
-    def predict_df(self, instances):
-        instances['predicted'] = instances.apply(lambda x: self.predict(x), axis=1)
-        return instances[['class', 'predicted']]
+    return predict(sub_tree, instance)

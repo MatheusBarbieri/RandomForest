@@ -1,5 +1,7 @@
-import time
+from multiprocessing import Pool
+import os
 import random
+import time
 
 from util import load_data, load_attributes, get_args
 from sampling import generate_k_folds, generate_splits
@@ -17,16 +19,17 @@ if __name__ == "__main__":
     k_folds = generate_k_folds(data, args.kfolds, seed=seed)
     splits = generate_splits(k_folds)
 
-    for i, split in enumerate(splits):
-        train, test = split
+    with Pool(os.cpu_count()*2 - 1) as pool:
+        for i, split in enumerate(splits):
+            train, test = split
 
-        start = time.time()
-        forest = Forest.generate(train, attributes, args.ntree)
-        end = time.time()
-        print("Forest {} generation time: {}s".format(i+1, "{0:.4f}".format(end-start)))
+            start = time.time()
+            forest = Forest.generate(train, attributes, args.ntree, m=args.m, pool=pool)
+            end = time.time()
+            print("Forest {} generation time: {}s".format(i+1, "{0:.4f}".format(end-start)))
 
-        results = forest.predict_df(test)
+            results = forest.predict_df(test)
 
-        total = len(results)
-        correct = len(results[results['predicted'] == results['class']])
-        print(f"Total: {total}, classified correctly: {correct}")
+            total = len(results)
+            correct = len(results[results['predicted'] == results['class']])
+            print(f"Total: {total}, classified correctly: {correct}")
