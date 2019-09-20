@@ -4,8 +4,6 @@ from numpy.random import randint
 
 def _random_k_folds(df, k, add_remaining, seed):
     fold_size = len(df) // k
-    if not fold_size:
-        raise Exception("Fold size should be smaller than dataset rows")
 
     folds = []
     for i in range(k):
