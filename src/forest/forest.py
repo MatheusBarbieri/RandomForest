@@ -1,4 +1,7 @@
+from multiprocessing import Pool
+import os
 from collections import Counter
+
 from sampling import generate_bootstraps
 from tree import Tree
 
@@ -10,7 +13,11 @@ class Forest:
     @classmethod
     def generate(cls, train_set, attributes, ntree):
         bootstraps = generate_bootstraps(train_set, ntree)
-        return Forest([Tree.generate(b, attributes) for b in bootstraps])
+        wraped_bootstraps = [(b, attributes) for b in bootstraps]
+        with Pool(os.cpu_count()*2 - 1) as p:
+            trees = p.starmap(Tree.generate, wraped_bootstraps)
+
+        return Forest(trees)
 
     def predict(self, instance):
         results = [tree.predict(instance) for tree in self.trees]
