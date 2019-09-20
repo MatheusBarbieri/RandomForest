@@ -11,9 +11,9 @@ class Forest:
         self.trees = trees
 
     @classmethod
-    def generate(cls, train_set, attributes, ntree):
+    def generate(cls, train_set, attributes, ntree, m=None):
         bootstraps = generate_bootstraps(train_set, ntree)
-        wraped_bootstraps = [(b, attributes) for b in bootstraps]
+        wraped_bootstraps = [(b, attributes, m) for b in bootstraps]
         with Pool(os.cpu_count()*2 - 1) as p:
             trees = p.starmap(Tree.generate, wraped_bootstraps)
 
