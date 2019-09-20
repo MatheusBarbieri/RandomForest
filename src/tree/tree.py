@@ -59,7 +59,7 @@ class Tree:
 
     def predict(self, instance):
         if self.target_class:
-            return (self.target_class, instance['class'])
+            return self.target_class
 
         if self.kind == "nominal":
             sub_tree = self.options[instance[self.attribute]]
@@ -69,8 +69,5 @@ class Tree:
         return sub_tree.predict(instance)
 
     def predict_df(self, instances):
-        results = []
-        for index, instance in instances.iterrows():
-            predicted, expected = self.predict(instance)
-            results.append((predicted, expected, index))
-        return results
+        instances['predicted'] = instances.apply(lambda x: self.predict(x), axis=1)
+        return instances[['class', 'predicted']]
