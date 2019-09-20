@@ -23,5 +23,10 @@ if __name__ == "__main__":
         start = time.time()
         forest = Forest.generate(train, attributes, args.ntree)
         end = time.time()
-
         print("Forest {} generation time: {}s".format(i+1, "{0:.4f}".format(end-start)))
+
+        results = forest.predict_df(test)
+
+        total = len(results)
+        correct = len(results[results['predicted'] == results['class']])
+        print(f"Total: {total}, classified correctly: {correct}")
