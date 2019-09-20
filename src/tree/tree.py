@@ -61,10 +61,14 @@ class Tree:
         if self.target_class:
             return self.target_class
 
-        if self.kind == "nominal":
-            sub_tree = self.options[instance[self.attribute]]
-        else:
-            sub_tree = self.options[instance[self.attribute] > self.cut]
+        try:
+            if self.kind == "nominal":
+                sub_tree = self.options[instance[self.attribute]]
+            else:
+                sub_tree = self.options[instance[self.attribute] > self.cut]
+        except KeyError:
+            print("Instance attribute has no class in tree node, using first option available")
+            sub_tree = next(iter(self.options.values()))
 
         return sub_tree.predict(instance)
 
