@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
     random.seed(seed)
 
-    k_folds = generate_k_folds(data, 10, seed=seed)
+    k_folds = generate_k_folds(data, args.kfolds, seed=seed)
     splits = generate_splits(k_folds)
 
     for i, split in enumerate(splits):

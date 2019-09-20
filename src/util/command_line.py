@@ -35,7 +35,14 @@ def get_args(arguments=None):
         '--ntree',
         default=5,
         type=int,
-        help="The number of trees generated on ensamble [default: %(default)s].")
+        help="Number of trees generated on ensamble [default: %(default)s].")
+
+    parser.add_argument(
+        '-k',
+        '--kfolds',
+        default=5,
+        type=int,
+        help="Number of k-folds generated for cross-validation [default: %(default)s].")
 
     args = parser.parse_args(arguments)
     return args
