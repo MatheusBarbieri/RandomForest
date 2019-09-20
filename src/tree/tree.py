@@ -71,6 +71,6 @@ class Tree:
     def predict_df(self, instances):
         results = []
         for index, instance in instances.iterrows():
-            predicted, expected = self.predict(instance.to_dict())
+            predicted, expected = self.predict(instance)
             results.append((predicted, expected, index))
         return results
