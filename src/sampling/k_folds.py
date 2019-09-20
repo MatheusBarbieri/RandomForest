@@ -1,4 +1,5 @@
 import pandas as pd
+from numpy.random import randint
 
 
 def _random_k_folds(df, k, add_remaining, seed):
@@ -27,7 +28,7 @@ def _stratified_k_folds(df, k, add_remaining, seed):
     return folds
 
 
-def generate_k_folds(df, k, sampling='stratified', add_remaining=True, seed=42):
+def generate_k_folds(df, k, sampling='stratified', add_remaining=True, seed=randint(10000)):
     if sampling == 'random':
         return _random_k_folds(df, k, add_remaining, seed)
     elif sampling == 'stratified':
