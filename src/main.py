@@ -1,11 +1,9 @@
 import time
 import random
 
-import pandas as pd
-
 from util import load_data, load_attributes, get_args
-from sampling import generate_k_folds
-from tree import Tree
+from sampling import generate_k_folds, generate_splits
+from forest import Forest
 
 
 if __name__ == "__main__":
@@ -14,21 +12,16 @@ if __name__ == "__main__":
     attributes = load_attributes(args.attributes)
     seed = args.seed
 
-    random.seed()
+    random.seed(seed)
+
     k_folds = generate_k_folds(data, 10, seed=seed)
-    training = pd.concat(k_folds[:-1])
-    test = k_folds[-1]
+    splits = generate_splits(k_folds)
 
-    start = time.time()
-    tree = Tree.generate(training, attributes)
-    end = time.time()
-    print("Total generation time: ", end-start)
+    for i, split in enumerate(splits):
+        train, test = split
 
-    results = tree.predict_df(test)
-    total = len(results)
-    correct = 0
-    for result in results:
-        if result[0] == result[1]:
-            correct = correct + 1
+        start = time.time()
+        forest = Forest.generate(train, attributes, args.ntree)
+        end = time.time()
 
-    print(f"Total: {total}, Correct: {correct}")
+        print("Forest {} generation time: {}s".format(i+1, "{0:.4f}".format(end-start)))
