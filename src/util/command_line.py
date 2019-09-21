@@ -43,5 +43,10 @@ def get_args(arguments=None):
         type=int,
         help="Number of k-folds generated for cross-validation [default: %(default)s].")
 
+    parser.add_argument(
+        '-v',
+        '--verbose',
+        action='count')
+
     args = parser.parse_args(arguments)
     return args
