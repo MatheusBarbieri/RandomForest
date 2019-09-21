@@ -16,7 +16,9 @@ if __name__ == "__main__":
     seed = args.seed
     attributes_in_division = args.m if args.m else min(np.sqrt(len(attributes)), 3)
 
-    random.seed(seed)
+    if seed:
+        print(f"Using seed: {seed}")
+        random.seed(seed)
 
     k_folds = generate_k_folds(data, args.kfolds, seed=seed)
     splits = generate_splits(k_folds)

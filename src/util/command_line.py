@@ -21,7 +21,6 @@ def get_args(arguments=None):
     parser.add_argument(
         '-s',
         '--seed',
-        default=42,
         type=int,
         help="Seed to random numbers and sampling.")
 
