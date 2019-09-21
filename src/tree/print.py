@@ -1,16 +1,20 @@
-def tree_to_string(tree, depth=1):
+def tree_to_string(tree, depth=0):
     DEFAULT_COLOR = '\033[39m'
     ATTR_COLOR = '\033[33m'
     NOMINAL_COLOR = '\033[34m'
     NUMERIC_COLOR = '\033[31m'
     CLASS_COLOR = '\033[32m'
 
+    spacing = "    " * depth
+
     if tree.target_class:
         string = CLASS_COLOR + str(tree.target_class) + DEFAULT_COLOR
         return string
 
-    string = ATTR_COLOR + str(tree.attribute) + DEFAULT_COLOR + ":\n"
-    spacing = "    " * depth
+    if depth == 0:
+        string = ATTR_COLOR + str(tree.attribute) + DEFAULT_COLOR + ":\n"
+    else:
+        string = ATTR_COLOR + "\n" + spacing + str(tree.attribute) + DEFAULT_COLOR + ":\n"
 
     if tree.kind == "nominal":
         for option in tree.options.items():
