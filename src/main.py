@@ -1,4 +1,5 @@
 from multiprocessing import Pool
+import numpy as np
 import os
 import random
 import time
@@ -13,6 +14,7 @@ if __name__ == "__main__":
     data = load_data(args.dataset)
     attributes = load_attributes(args.attributes)
     seed = args.seed
+    attributes_in_division = args.m if args.m else min(np.sqrt(len(attributes)), 3)
 
     random.seed(seed)
 
@@ -24,7 +26,7 @@ if __name__ == "__main__":
             train, test = split
 
             start = time.time()
-            forest = Forest.generate(train, attributes, args.ntree, m=args.m, pool=pool)
+            forest = Forest.generate(train, attributes, args.ntree, m=attributes_in_division, pool=pool)
             end = time.time()
             print("Forest {} generation time: {}s".format(i+1, "{0:.4f}".format(end-start)))
 
