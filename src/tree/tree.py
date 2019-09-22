@@ -62,7 +62,7 @@ class Tree:
 
 
 def predict(tree, instance):
-    if tree.target_class:
+    if tree.target_class or tree.target_class == 0:
         return tree.target_class
 
     try:
