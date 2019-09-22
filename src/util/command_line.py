@@ -44,6 +44,13 @@ def get_args(arguments=None):
         help="Number of k-folds generated for cross-validation [default: %(default)s].")
 
     parser.add_argument(
+        '-p',
+        '--parallelize',
+        dest='parallelize',
+        action='store_true',
+        help="Parallelize with 2x number of cpu cores processes on tree generation. WARNING: seed values wont work.")
+
+    parser.add_argument(
         '-v',
         '--verbose',
         action='count')

@@ -9,8 +9,8 @@ class Forest:
         self.trees = trees
 
     @classmethod
-    def generate(cls, train_set, attributes, ntree, m=None, pool=None):
-        bootstraps = generate_bootstraps(train_set, ntree)
+    def generate(cls, train_set, attributes, ntree, m=None, pool=None, seed=None):
+        bootstraps = generate_bootstraps(train_set, ntree, seed=seed)
         wraped_bootstraps = [(b, attributes, m) for b in bootstraps]
         if pool:
             trees = pool.starmap(Tree.generate, wraped_bootstraps)
