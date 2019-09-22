@@ -60,9 +60,7 @@ if __name__ == "__main__":
     final_confusion_matrix = ConfusionMatrix(pd.concat(total_results))
     total_end = time.time()
 
-    if verbose > 1:
-        print("="*50)
-
+    print("="*50)
     print(f"Results for {data_path.replace('.csv', '')}:")
     print(f"Params: k_folds: {k_folds_number}; ntree: {trees_number}; m: {attributes_in_division}; seed: {seed}")
 
