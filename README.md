@@ -3,6 +3,6 @@
 > This is a random forest classificator.
 
 ### Installation
-This application was developed using Python 3.6.2
+This application requires Python version 3.6 or newer
 
 There is a Makefile in the project folder which has set up rules for installing, running and testing this application.
