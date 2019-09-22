@@ -6,7 +6,7 @@ import random
 import time
 
 from metrics import ConfusionMatrix
-from util import load_data, load_attributes, get_args
+from util import load_data, load_attributes, get_args, save_results
 from sampling import generate_k_folds, generate_splits
 from forest import Forest
 
@@ -66,7 +66,18 @@ if __name__ == "__main__":
     print(f"Params: k_folds: {k_folds_number}; ntree: {trees_number}; m: {attributes_in_division}; seed: {seed}")
 
     final_confusion_matrix.show(verbose=(verbose > 0))
-    print(f"Total processing time: {total_end-total_start:0.3f}s")
+    execution_time = total_end - total_start
+    print(f"Total processing time: {execution_time:0.3f}s")
+
+    save_results(
+        final_confusion_matrix,
+        data_path,
+        k_folds_number,
+        trees_number,
+        attributes_in_division,
+        execution_time,
+        seed,
+        parallelize)
 
     if parallelize:
         pool.close()
