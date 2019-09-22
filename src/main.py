@@ -32,6 +32,7 @@ if __name__ == "__main__":
 
     with Pool(os.cpu_count()*2 - 1) as pool:
         total_results = []
+        total_start = time.time()
         for i, split in enumerate(splits):
             train, test = split
 
@@ -56,3 +57,5 @@ if __name__ == "__main__":
         print(f"Results for {data_path.replace('.csv', '')}:")
         print(f"Params: k_folds: {k_folds_number}; ntree: {trees_number}; m: {attributes_in_division}; seed: {seed}")
         final_confusion_matrix.show(verbose=(verbose > 0))
+        total_end = time.time()
+        print(f"Total processing time: {total_end-total_start:0.3f}s")
