@@ -4,6 +4,25 @@ from information import info_attributes
 from .print import tree_to_string
 
 
+class Tree:
+    def __init__(self, options=None, target_class=None, attribute=None, kind=None, cut=None):
+        self.target_class = target_class
+        self.options = options
+        self.attribute = attribute
+        self.kind = kind
+        self.cut = cut
+
+    def __str__(self):
+        return tree_to_string(self)
+
+    @classmethod
+    def generate(cls, df, attributes_kinds, m=None):
+        attributes_index = {v: i for i, v in enumerate(df.columns.values)}
+        class_index = attributes_index.pop('class')
+        data = df.values
+        return _generate(data, attributes_index, attributes_kinds, class_index, m)
+
+
 def _most_frequent_class(class_array):
     values, counts = np.unique(class_array, return_counts=True)
     return values[counts.argmax()]
@@ -35,52 +54,33 @@ def _choose_best_attribute(data, attributes_index, attributes_kinds, class_index
     return choice_name, choice_kind, choice_groups, choice_groups_index
 
 
-class Tree:
-    def __init__(self, options=None, target_class=None, attribute=None, kind=None, cut=None):
-        self.target_class = target_class
-        self.options = options
-        self.attribute = attribute
-        self.kind = kind
-        self.cut = cut
+def _generate(data, attributes_index, attributes_kinds, class_index, m=None):
+    if _is_class_unique(data, class_index):
+        return Tree(target_class=data[:, class_index][0])
 
-    def __str__(self):
-        return tree_to_string(self)
+    elif not attributes_kinds:
+        return Tree(target_class=_most_frequent_class(data[:, class_index]))
 
-    @classmethod
-    def generate(cls, df, attributes_kinds, m=None):
-        attributes_index = {v: i for i, v in enumerate(df.columns.values)}
-        class_index = attributes_index.pop('class')
-        data = df.values
-        return cls._generate(data, attributes_index, attributes_kinds, class_index, m)
+    else:
+        best_attribute = _choose_best_attribute(data, attributes_index, attributes_kinds, class_index, m)
+        name, kind, grouped_data, index = best_attribute
 
-    @classmethod
-    def _generate(cls, data, attributes_index, attributes_kinds, class_index, m=None):
-        if _is_class_unique(data, class_index):
-            return Tree(target_class=data[:, class_index][0])
+        new_attributes = {k: v for k, v in attributes_kinds.items() if k != name}
 
-        elif not attributes_kinds:
-            return Tree(target_class=_most_frequent_class(data[:, class_index]))
+        def gen_options():
+            options = {}
+            for c, group in zip(index, grouped_data):
+                options[c] = _generate(group, attributes_index, new_attributes, class_index, m)
+            return options
 
-        else:
-            best_attribute = _choose_best_attribute(data, attributes_index, attributes_kinds, class_index, m)
-            name, kind, grouped_data, index = best_attribute
+        cut = data[:, attributes_index[name]].mean() if kind == "numeric" else None
 
-            new_attributes = {k: v for k, v in attributes_kinds.items() if k != name}
-
-            def gen_options():
-                options = {}
-                for c, group in zip(index, grouped_data):
-                    options[c] = cls._generate(group, attributes_index, new_attributes, class_index, m)
-                return options
-
-            cut = data[:, attributes_index[name]].mean() if kind == "numeric" else None
-
-            return Tree(
-                attribute=name,
-                kind=kind,
-                options=gen_options(),
-                cut=cut
-            )
+        return Tree(
+            attribute=name,
+            kind=kind,
+            options=gen_options(),
+            cut=cut
+        )
 
 
 def predict(tree, instance):

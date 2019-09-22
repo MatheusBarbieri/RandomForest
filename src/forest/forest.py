@@ -1,4 +1,5 @@
 from collections import Counter
+from numpy.random import randint
 
 from sampling import generate_bootstraps
 from tree import Tree, predict as tree_predict
@@ -10,6 +11,8 @@ class Forest:
 
     @classmethod
     def generate(cls, train_set, attributes, ntree, m=None, pool=None, seed=None):
+        if not seed:
+            seed = randint(10000)
         bootstraps = generate_bootstraps(train_set, ntree, seed=seed)
         wraped_bootstraps = [(b, attributes, m) for b in bootstraps]
         if pool:

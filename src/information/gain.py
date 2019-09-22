@@ -15,6 +15,8 @@ def _group_by_attribute(data, attributes_index, attribute, kind):
 
         if not lower_than.any():
             return [greater_than], [False]
+        elif not greater_than.any():
+            return [lower_than], [True]
         else:
             return [greater_than, lower_than], [False, True]
 
