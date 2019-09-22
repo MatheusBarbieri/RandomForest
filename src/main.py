@@ -21,7 +21,7 @@ if __name__ == "__main__":
     k_folds_number = args.kfolds
     trees_number = args.ntree
     verbose = args.verbose or 0
-    attributes_in_division = args.m if args.m else min(np.sqrt(len(attributes)), 3)
+    attributes_in_division = args.m if args.m else max(int(np.sqrt(len(attributes))), 3)
 
     if seed:
         print(f"Using seed: {seed}")
