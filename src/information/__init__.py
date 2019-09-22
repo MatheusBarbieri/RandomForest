@@ -1,1 +1,1 @@
-from .gain import info_attributes # noqa
+from .gain import info_attributes, attributes_gains # noqa

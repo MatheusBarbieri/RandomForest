@@ -3,10 +3,10 @@ import numpy as np
 
 
 @jit(nopython=True)
-def np_info(counts, group_size):
+def np_info(counts, size):
     total_info = 0
     for c in counts:
-        x = c / group_size
+        x = c / size
         total_info = total_info - x * np.log2(x)
 
     return total_info
@@ -40,3 +40,11 @@ def info_attributes(df, attributes):
     column_index = {v: i for i, v in enumerate(df.columns.values)}
     data = df.values
     return info_attributes_calc(data, attributes, column_index)
+
+
+def attributes_gains(df, attributes):
+    size = len(df)
+    counts = df['class'].value_counts().to_numpy()
+    df_info = np_info(counts, size)
+    attr_infos = info_attributes(df, attributes)
+    return [df_info - info for info in attr_infos]
