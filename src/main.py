@@ -23,8 +23,7 @@ if __name__ == "__main__":
     verbose = args.verbose or 0
     parallelize = args.parallelize
 
-    attributes_in_division = min(args.m, len(attributes)) if args.m else max(int(np.sqrt(len(attributes))), 3)
-
+    attributes_in_division = min(args.m, len(attributes)) if args.m else int(round(np.sqrt(len(attributes))))
 
     if seed and verbose > 0:
         print(f"Using seed: {seed}")
