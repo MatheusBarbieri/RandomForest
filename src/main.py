@@ -24,7 +24,7 @@ if __name__ == "__main__":
     attributes_in_division = args.m if args.m else max(int(np.sqrt(len(attributes))), 3)
     parallelize = args.parallelize
 
-    if seed:
+    if seed and verbose > 0:
         print(f"Using seed: {seed}")
         random.seed(seed)
 
