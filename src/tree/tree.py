@@ -71,7 +71,6 @@ def predict(tree, instance):
         else:
             sub_tree = tree.options[instance[tree.attribute] > tree.cut]
     except KeyError:
-        print("Instance attribute has no class in tree node, using first option available")
         sub_tree = next(iter(tree.options.values()))
 
     return predict(sub_tree, instance)
