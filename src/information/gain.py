@@ -1,30 +1,42 @@
-from math import log2
-from util import group_by_attribute
+from numba import jit
+import numpy as np
 
 
-def info(df):
-    total = len(df)
-    class_counts = df['class'].value_counts().to_list()
+@jit(nopython=True)
+def np_info(counts, group_size):
     total_info = 0
-
-    for c in class_counts:
-        x = c / total
-        total_info = total_info - x * log2(x)
+    for c in counts:
+        x = c / group_size
+        total_info = total_info - x * np.log2(x)
 
     return total_info
 
 
-def info_attribute(attribute, df):
-    instances_by_attribute = group_by_attribute(attribute, df)
-    df_size = len(df)
-    total_info = 0
+def info_attributes_calc(data, attributes, column_index):
+    class_pos = column_index['class']
+    total_size = len(data)
 
-    for _, group in instances_by_attribute:
-        group_size = len(group)
-        total_info = total_info + group_size / df_size * info(group)
+    infos = []
+    for attr, kind in attributes:
+        if kind == "nominal":
+            unique = np.unique(data[:, column_index[attr]])
+            groups = [data[data[:, column_index[attr]] == u] for u in unique]
+        else:
+            mean = data[:, column_index[attr]].mean()
+            groups = [data[data[:, column_index[attr]] <= mean], data[data[:, column_index[attr]] > mean]]
 
-    return total_info
+        attr_info = 0
+        for group in groups:
+            group_size = len(group)
+            class_column = group[:, class_pos]
+            classes, counts = np.unique(class_column, return_counts=True)
+            attr_info = attr_info + group_size / total_size * np_info(counts, group_size)
+
+        infos.append(attr_info)
+    return infos
 
 
-def gain(attr, df):
-    return info(df) - info_attribute(attr, df)
+def info_attributes(df, attributes):
+    column_index = {v: i for i, v in enumerate(df.columns.values)}
+    data = df.values
+    return info_attributes_calc(data, attributes, column_index)
