@@ -10,6 +10,9 @@ run-wine:
 run-vertebral-column:
 	python src/main.py -d "data/phpOkU53r.csv" -a "data/phpOkU53r.json"
 
+run-evaluate:
+	python src/runner.py
+
 setup:
 	pip install -r requirements.txt -r
 
