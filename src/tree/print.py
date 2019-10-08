@@ -29,5 +29,4 @@ def tree_to_string(tree, depth=0):
 
     string = string[:-1]
 
-    // tem que printar o ganho
     return string
