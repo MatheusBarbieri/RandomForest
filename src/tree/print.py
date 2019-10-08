@@ -1,9 +1,9 @@
 def tree_to_string(tree, depth=0):
     DEFAULT_COLOR = '\033[39m'
-    ATTR_COLOR = '\033[33m'
+    ATTR_COLOR = '\033[35m'
     NOMINAL_COLOR = '\033[34m'
     NUMERIC_COLOR = '\033[31m'
-    CLASS_COLOR = '\033[32m'
+    CLASS_COLOR = '\033[36m'
 
     spacing = "    " * depth
 
@@ -12,9 +12,9 @@ def tree_to_string(tree, depth=0):
         return string
 
     if depth == 0:
-        string = ATTR_COLOR + str(tree.attribute) + DEFAULT_COLOR + ":\n"
+        string = ATTR_COLOR + str(tree.attribute) + DEFAULT_COLOR + f'({tree.gain:0.3f}):\n'
     else:
-        string = ATTR_COLOR + "\n" + spacing + str(tree.attribute) + DEFAULT_COLOR + ":\n"
+        string = ATTR_COLOR + "\n" + spacing + str(tree.attribute) + DEFAULT_COLOR + f'({tree.gain:0.3f}):\n'
 
     if tree.kind == "nominal":
         for option in tree.options.items():
@@ -28,4 +28,6 @@ def tree_to_string(tree, depth=0):
             string = string + spacing + attr_name + tree_to_string(option[1], depth + 1) + "\n"
 
     string = string[:-1]
+
+    // tem que printar o ganho
     return string

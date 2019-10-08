@@ -42,15 +42,18 @@ def _take_m(attributes, m):
 def _choose_best_attribute(data, attributes_index, attributes_kinds, class_index, m):
     attributes_list = _take_m(attributes_kinds, m)
 
+    // all_infos por enquanto é a entropia, mas tem que ser ganho
     aux = info_attributes(data, attributes_index, attributes_kinds, attributes_list, class_index)
     all_infos, all_groups, all_groups_index = aux
 
+    // choice_index = all_infos.index(max(all_infos))
     choice_index = all_infos.index(min(all_infos))
 
     choice_name, choice_kind = attributes_list[choice_index]
     choice_groups = all_groups[choice_index]
     choice_groups_index = all_groups_index[choice_index]
 
+    // return all_infos[choice_index] -> junto do que ja ta ali
     return choice_name, choice_kind, choice_groups, choice_groups_index
 
 
@@ -62,8 +65,9 @@ def _generate(data, attributes_index, attributes_kinds, class_index, m=None):
         return Tree(target_class=_most_frequent_class(data[:, class_index]))
 
     else:
+        // outra forma de conseguir o best atribute (sem ser por gain)
         best_attribute = _choose_best_attribute(data, attributes_index, attributes_kinds, class_index, m)
-        name, kind, grouped_data, index = best_attribute
+        name, kind, grouped_data, index, ganho = best_attribute
 
         new_attributes = {k: v for k, v in attributes_kinds.items() if k != name}
 
@@ -76,6 +80,7 @@ def _generate(data, attributes_index, attributes_kinds, class_index, m=None):
         cut = data[:, attributes_index[name]].mean() if kind == "numeric" else None
 
         return Tree(
+            // gain=ganho,
             attribute=name,
             kind=kind,
             options=gen_options(),
